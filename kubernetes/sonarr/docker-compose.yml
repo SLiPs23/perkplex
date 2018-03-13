@@ -1,0 +1,17 @@
+version: '2'
+services:
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+        volumes:
+            - /opt/config/sonarr:/config
+            - /etc/localtime:/etc/localtime:ro
+            - /opt/storage/TV:/tv
+            - /opt/Downloads/complete:/downloads
+        ports:
+            - 8989:8989
+        env_file: uidgid.env
+        environment:
+            - VIRTUAL_HOST=sonarr.slips23.com
+            - VIRTUAL_PORT=8989
+        restart: always

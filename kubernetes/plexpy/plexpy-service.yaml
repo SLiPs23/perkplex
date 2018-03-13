@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: plexpy
+  name: plexpy
+spec:
+  type: NodePort
+  ports:
+  - name: "8181"
+    port: 8181
+    targetPort: 8181
+  selector:
+    io.kompose.service: plexpy

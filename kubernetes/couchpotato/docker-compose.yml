@@ -1,0 +1,16 @@
+version: '2'
+services:
+    couchpotato:
+        image: linuxserver/couchpotato:latest
+        container_name: couchpotato
+        volumes:
+            - /opt/config/couchpotato:/config
+            - /opt/storage/movies:/movies
+            - /opt/downloads/complete:/downloads
+        ports:
+            - 5050:5050
+        env_file: uidgid.env
+        environment:
+            - VIRTUAL_HOST=couchpotato.slips23.com
+            - VIRTUAL_PORT=5050
+        restart: always

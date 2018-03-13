@@ -1,0 +1,14 @@
+version: '2'
+services:
+    ombi:
+        image: linuxserver/ombi
+        container_name: ombi
+        volumes:
+            - /opt/config/ombi:/config
+        ports:
+            - 3579:3579
+        env_file: uidgid.env
+        environment:
+            - VIRTUAL_HOST=ombi.slips23.com
+            - VIRTUAL_PORT=3579
+        restart: always

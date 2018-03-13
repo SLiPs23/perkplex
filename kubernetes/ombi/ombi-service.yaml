@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ombi
+  name: ombi
+spec:
+  type: NodePort
+  ports:
+  - name: "3579"
+    port: 3579
+    targetPort: 3579
+  selector:
+    io.kompose.service: ombi
