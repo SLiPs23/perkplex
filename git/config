@@ -1,0 +1,7 @@
+[user]
+	email = seanlperkins@icloud.com
+	name = Sean Perkins
+[push]
+	default = simple
+[credential]
+	helper = cache
