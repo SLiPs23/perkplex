@@ -1,14 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: muximux-claim0
-  name: muximux-claim0
+  name: muximux-volume-claim
 spec:
+  storageClassName: manual
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
-status: {}
+      storage: 50Gi

@@ -1,0 +1,4 @@
+kubectl delete deploy/ombi
+kubectl delete svc/ombi
+kubectl delete pv ombi-volume
+kubectl delete pvc ombi-volume-claim

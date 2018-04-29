@@ -1,0 +1,4 @@
+kubectl create -f ombi-volume
+kubectl create -f ombi-claim0-persistentvolumeclaim.yaml
+kubectl create -f ombi-deployment.yaml
+kubectl create -f ombi-service.yaml

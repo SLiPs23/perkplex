@@ -1,0 +1,3 @@
+sudo docker build -t perkplex-nginx .
+sudo docker tag perkplex-nginx sperkins/perkplex-nginx
+sudo docker push sperkins/perkplex-nginx

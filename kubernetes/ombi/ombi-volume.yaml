@@ -1,0 +1,14 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: ombi-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 50Gi
+  hostPath:
+    path: /config
