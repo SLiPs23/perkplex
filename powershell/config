@@ -1,0 +1,53 @@
+TCPKeepAlive yes
+Protocol 2
+ControlMaster auto
+Compression yes
+
+
+Host ficken
+Hostname 192.99.233.35
+IdentityFile ~/.ssh/ficken
+User slips23
+Port 37777
+
+Host mintlap
+Hostname 192.168.1.42
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-master
+Hostname 192.168.1.44
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+Port 37777
+
+Host kube-node-mac
+Hostname 192.168.1.45
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-node-pc
+Hostname 192.168.1.20
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-pi-n1
+Hostname 192.168.1.53
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-pi-n2
+Hostname 192.168.1.52
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-pi-n3
+Hostname 192.168.1.50
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
+Host kube-pi-n4
+Hostname 192.168.1.49
+IdentityFile ~/.ssh/id_rsa
+User sperkins
+
