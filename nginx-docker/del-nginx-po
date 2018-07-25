@@ -1,0 +1,1 @@
+kubectl get po |awk '{print $1}' |grep nginx | xargs kubectl delete po

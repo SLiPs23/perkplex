@@ -21,14 +21,14 @@ server {
         auth_basic_user_file /etc/nginx/.htpasswd;
 
     location /plexstats {
-       proxy_pass http://192.168.1.44:31576;
+       proxy_pass http://192.168.1.44:32635;
        proxy_set_header Host $host;
        proxy_set_header X-Real-IP $remote_addr;
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
        }
 
     location /muximux {
-       proxy_pass http://192.168.1.44:31182/;
+       proxy_pass http://192.168.1.44:30118/;
        proxy_set_header Host $host;
        proxy_set_header X-Real-IP $remote_addr;
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -39,7 +39,7 @@ server {
 }
 
 location /plexrequest/ {
-    proxy_pass http://192.168.1.44:30404;
+    proxy_pass http://192.168.1.44:31348;
     proxy_max_temp_file_size 0;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Host $server_name;
@@ -48,7 +48,7 @@ location /plexrequest/ {
     proxy_set_header X-Forwarded-Ssl on;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_read_timeout  90;
-    proxy_redirect http://192.168.1.44:30404 https://$host;
+    proxy_redirect http://192.168.1.44:31348 https://$host;
     auth_basic "off";
 }
 if ($http_referer ~* /plexrequest/) {
@@ -69,11 +69,6 @@ if ($http_referer ~* /plexrequest/) {
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
        }
 
-    location /grafana/ {
-       proxy_pass http://192.168.1.20:3000/;
-       proxy_set_header Host $host;
-       }
-
     location /syncthing/ {
        proxy_set_header        Host $host;
        proxy_set_header        X-Real-IP $remote_addr;
@@ -83,18 +78,11 @@ if ($http_referer ~* /plexrequest/) {
        proxy_pass              http://192.168.1.4:8384/;
        }
 
-    location /monit/ {
-       rewrite ^/monit/(.*) /$1 break;
-       proxy_ignore_client_abort on;
-       proxy_pass   http://192.168.1.20:2812;
-       proxy_set_header Host $host;
-  }
-
-    location /munin {
-       proxy_pass http://192.168.1.20;
+    location /jackett/ {
+       proxy_pass http://192.168.1.4:9117/;
        proxy_set_header Host $host;
        proxy_set_header X-Real-IP $remote_addr;
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Proto $scheme;
        }
-
-}
+} 
