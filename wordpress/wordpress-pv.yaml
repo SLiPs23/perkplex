@@ -6,7 +6,7 @@ metadata:
     type: local
     app: wordpress
 spec:
-  storageClassName: manual
+  storageClassName: rook-block
   accessModes:
     - ReadWriteOnce
   capacity:

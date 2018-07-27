@@ -19,7 +19,7 @@ metadata:
   labels:
     app: wordpress
 spec:
-  storageClassName: manual
+  storageClassName: rook-block
   accessModes:
     - ReadWriteOnce
   resources:
@@ -37,6 +37,7 @@ spec:
     matchLabels:
       app: wordpress
       tier: frontend
+  replicas: 2
   strategy:
     type: Recreate
   template:
