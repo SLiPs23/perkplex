@@ -9,10 +9,6 @@ server {
         try_files $uri $uri/ =404;
     }
 
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(/wordpress)(/.*)$;
-       }
-
     location /nginx_status {
         stub_status on;
         access_log   off;
@@ -23,24 +19,6 @@ server {
     server_name perkplex.geekgalaxy.com;
         auth_basic "Restricted";
         auth_basic_user_file /etc/nginx/.htpasswd;
-
-    location /wordpress {
-        try_files $uri $uri/ /wordpress/index.php?$args;
-        proxy_pass http://192.168.1.44:32243/wordpress;
-        proxy_buffering                 on;
-        proxy_buffer_size               128k;
-        proxy_buffers                   4 128k;
-        proxy_busy_buffers_size         256k;
-        proxy_temp_file_write_size      256k;
-        proxy_connect_timeout   60s;
-        port_in_redirect off;
-        proxy_redirect off;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        client_max_body_size 128M;
-    }
 
     location /plexstats {
        proxy_pass http://192.168.1.44:32635;
