@@ -1,0 +1,88 @@
+server {
+    listen 4080 default_server;
+    listen [::]:4080 default_server ipv6only=on;
+
+    root /usr/share/nginx/html/PlexRedirect;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /nginx_status {
+        stub_status on;
+        access_log   off;
+        allow 127.0.0.1;
+        deny all;
+       }  
+
+    server_name perkplex.geekgalaxy.com;
+        auth_basic "Restricted";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+
+    location /plexstats {
+       proxy_pass http://192.168.1.44:32635;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+    location /muximux {
+       proxy_pass http://192.168.1.44:30118/;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+ location /plexrequest {		
+     return 301 $scheme://$host/plexrequest;		
+}
+
+location /plexrequest/ {
+    proxy_pass http://192.168.1.44:31348;
+    proxy_max_temp_file_size 0;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Ssl on;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_read_timeout  90;
+    proxy_redirect http://192.168.1.44:31348 https://$host;
+    auth_basic "off";
+}
+if ($http_referer ~* /plexrequest/) {
+        rewrite ^/dist/(.*) $scheme://$host/plexrequest/dist/$1 permanent;
+}
+
+    location /couch {
+       proxy_pass http://192.168.1.4:5050;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+    location /sonarr {
+       proxy_pass http://192.168.1.4:8989;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+    location /syncthing/ {
+       proxy_set_header        Host $host;
+       proxy_set_header        X-Real-IP $remote_addr;
+       proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header        X-Forwarded-Proto $scheme;
+
+       proxy_pass              http://192.168.1.4:8384/;
+       }
+
+    location /jackett/ {
+       proxy_pass http://192.168.1.4:9117/;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Proto $scheme;
+       }
+} 

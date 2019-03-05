@@ -1,0 +1,15 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: htpcmanager-pv
+  labels:
+    type: local
+    app: htpcmanager
+spec:
+  storageClassName: rook-block
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 50Gi
+  hostPath:
+    path: /config

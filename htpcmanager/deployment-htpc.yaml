@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: htpcmanager
+  labels:
+    app: htpcmanager
+spec:
+  selector:
+    matchLabels:
+      app: htpcmanager
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: htpcmanager
+    spec:
+      containers:
+      - env:
+        - name: PGID
+        - name: PUID
+        image: linuxserver/htpcmanager
+        name: htpcmanager
+        ports:
+        - containerPort: 8085
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: htpcmanager-pv
+      restartPolicy: Always
+      volumes:
+      - name: htpcmanager-pv
+        persistentVolumeClaim:
+          claimName: htpcmanager-pv-claim

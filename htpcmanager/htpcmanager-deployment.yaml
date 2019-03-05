@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: htpcmanager
+  labels:
+    app: htpcmanager
+spec:
+  ports:
+    - port: 8085
+  selector:
+    app: htpcmanager
+  type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: htpcmanager-pv-claim
+  labels:
+    app: htpcmanager
+spec:
+  storageClassName: rook-block
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: htpcmanager
+  labels:
+    app: htpcmanager
+spec:
+  selector:
+    matchLabels:
+      app: htpcmanager
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: htpcmanager
+    spec:
+      containers:
+        image: linuxserver/htpcmanager
+        name: htpcmanager
+      - env:
+        - name: PGID
+        - name: PUID
+        ports:
+        - containerPort: 8085
+        resources: {}
+        volumeMounts:
+        - name: htpcmanager-pv
+          mountPath: /config
+      restartPolicy: Always
+      volumes:
+      - name: htpcmanager-pv
+        persistentVolumeClaim:
+          claimName: htpcmanager-pv-claim
