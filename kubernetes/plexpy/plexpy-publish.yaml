@@ -1,18 +1,3 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: plexpy-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 50Gi
-  hostPath:
-    path: /config
-
 ---
 
 apiVersion: v1
@@ -20,12 +5,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: plexpy-volume-claim
 spec:
-  storageClassName: manual
+  storageClassName: nfs-client
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 20Gi
 
 ---
 
@@ -56,7 +41,7 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: plexpy.slips23.com
+          value: plexpy.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8181"
         image: linuxserver/plexpy

@@ -1,34 +1,17 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: muximux-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 50Gi
-  hostPath:
-    path: /config
-
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: muximux-volume-claim
 spec:
-  storageClassName: manual
+  storageClassName: nfs-client
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 20Gi
 
 ---
-
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -56,7 +39,7 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: muximux.slips23.com
+          value: muximux.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8080"
         image: linuxserver/muximux
@@ -73,7 +56,6 @@ spec:
 status: {}
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,23 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-mysql
+  name: wordpress-golf-mysql
   labels:
-    app: wordpress
+    app: wordpress-golf
 spec:
   ports:
     - port: 3306
   selector:
-    app: wordpress
+    app: wordpress-golf
     tier: mysql
   clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: mysql-golf-pv-claim
   labels:
-    app: wordpress
+    app: wordpress-golf
 spec:
   storageClassName: nfs-client
   accessModes:
@@ -29,25 +29,25 @@ spec:
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: wordpress-mysql
+  name: wordpress-golf-mysql
   labels:
-    app: wordpress
+    app: wordpress-golf
 spec:
   selector:
     matchLabels:
-      app: wordpress
+      app: wordpress-golf
       tier: mysql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: wordpress
+        app: wordpress-golf
         tier: mysql
     spec:
       containers:
       - image: mysql:5.6
-        name: mysql
+        name: mysql-golf
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -58,9 +58,9 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: mysql-pv
+        - name: mysql-golf-pv
           mountPath: /var/lib/mysql
       volumes:
-      - name: mysql-pv
+      - name: mysql-golf-pv
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: mysql-golf-pv-claim

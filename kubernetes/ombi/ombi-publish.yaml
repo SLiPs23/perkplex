@@ -1,34 +1,17 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: ombi-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 50Gi
-  hostPath:
-    path: /config
-
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ombi-volume-claim
 spec:
-  storageClassName: manual
+  storageClassName: nfs-client
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 20Gi
 
 ---
-
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -56,10 +39,10 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: ombi.slips23.com
+          value: ombi.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "3579"
-        image: linuxserver/ombi:80
+        image: linuxserver/ombi:latest
         name: ombi
         ports:
         - containerPort: 3579
@@ -73,9 +56,7 @@ spec:
         persistentVolumeClaim:
           claimName: ombi-volume-claim
 status: {}
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

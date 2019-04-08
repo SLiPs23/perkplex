@@ -36,11 +36,11 @@ server {
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
 
 	location /plexstats {
-	proxy_pass http://192.168.1.44:32635;
+	proxy_pass http://192.168.1.44:30719;
 	}
 
 	location /muximux {
-	proxy_pass http://192.168.1.44:30118/;
+	proxy_pass http://192.168.1.44:31186/;
 	}
 
 	location /plexrequest {		
@@ -48,13 +48,13 @@ server {
 	}
 
 	location /plexrequest/ {
-	proxy_pass http://192.168.1.44:31348;
+	proxy_pass http://192.168.1.44:30289;
 	proxy_max_temp_file_size 0;
 	proxy_set_header X-Forwarded-Host $server_name;
 	proxy_set_header X-Forwarded-Ssl on;
 	proxy_set_header X-Forwarded-Proto $scheme;
 	proxy_read_timeout  90;
-	proxy_redirect http://192.168.1.44:31348 https://$host;
+	proxy_redirect http://192.168.1.44:30289 https://$host;
 	auth_basic "off";
 	}
 	if ($http_referer ~* /plexrequest/) {
@@ -62,24 +62,24 @@ server {
 	}
 
 	location /couch {
-	proxy_set_header Host 192.168.1.4;
-	proxy_pass http://192.168.1.4:5050;
+	proxy_set_header Host 192.168.1.6;
+	proxy_pass http://192.168.1.6:5050;
 	}
 
 	location /sonarr {
-	proxy_set_header Host 192.168.1.4;
-	proxy_pass http://192.168.1.4:8989;
+	proxy_set_header Host 192.168.1.6;
+	proxy_pass http://192.168.1.6:8989;
 	}
 
 	location /syncthing/ {
-	proxy_set_header        Host 192.168.1.4;
+	proxy_set_header        Host 192.168.1.6;
 	proxy_set_header        X-Forwarded-Proto $scheme;
-	proxy_pass              http://192.168.1.4:8384/;
+	proxy_pass              http://192.168.1.6:8384/;
 	}
 
 	location /jackett {
-	proxy_set_header Host 192.168.1.4;
+	proxy_set_header Host 192.168.1.6;
 	proxy_set_header X-Forwarded-Proto $scheme;
-	proxy_pass http://192.168.1.4:9117/jackett;
+	proxy_pass http://192.168.1.6:9117/jackett;
 	}
 } 
