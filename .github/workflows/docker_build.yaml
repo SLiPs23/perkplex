@@ -1,4 +1,4 @@
-- name: One Click Docker
+name: One Click Docker
   on: 
     push:
       paths:
