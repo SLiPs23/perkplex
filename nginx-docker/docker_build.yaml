@@ -1,0 +1,2 @@
+- name: One Click Docker
+    uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
