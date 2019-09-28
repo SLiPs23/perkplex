@@ -1,11 +1,11 @@
 name: One Click Docker
-  on: 
-    push:
-      paths:
-        - 'nginx-docker/*'
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
-      - name: Build and Push Docker Image
+on: 
+  push:
+    paths:
+      - 'nginx-docker/*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
+    - name: Build and Push Docker Image
