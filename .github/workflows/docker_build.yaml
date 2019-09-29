@@ -1,12 +1,23 @@
 name: Docker Build and Push
+
 on: 
   push:
     paths:
       - 'nginx-docker/*'
+
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
-    - name: Build and Push Docker Image
+      - name: Checkout
+        uses: actions/checkout@v1
+        with: 
+          fetch-depth: 1
+
+      - name: Build and Push Docker Image
+        uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE: ${{ secrets.DOCKER_IMAGE_NAME }}
+          LATEST: "true"
