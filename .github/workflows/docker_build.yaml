@@ -1,9 +1,6 @@
 name: Docker Build and Push
 
-on: 
-  push:
-    paths:
-      - 'nginx-docker/*'
+on: push
 
 jobs:
   docker:
