@@ -17,5 +17,3 @@ jobs:
           name: perkins/perkplex-nginx         
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: ./nginx-docker
-          dockerfile: ./nginx-docker/Dockerfile
