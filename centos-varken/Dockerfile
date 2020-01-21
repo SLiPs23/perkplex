@@ -24,6 +24,8 @@ COPY rootfs/ /
 RUN yum install -y epel-release
 RUN yum update -y
 RUN yum install -y net-tools initscripts wget git
+RUN wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+RUN yum install epel-release-latest-7.noarch.rpm
 
 # Python 3.6.7 + pip
 RUN yum install -y https://centos7.iuscommunity.org/ius-release.rpm
