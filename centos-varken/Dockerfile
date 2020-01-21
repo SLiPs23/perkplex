@@ -29,7 +29,7 @@ RUN yum install epel-release-latest-7.noarch.rpm -y
 
 # Python 3.6.7 + pip
 RUN yum install -y https://centos7.iuscommunity.org/ius-release.rpm
-RUN yum install -y python36u python36u-libs python36u-devel python36u-pip
+RUN yum install -y python36u python36u-libs python36u-devel python36u-pip --nobest
 
 
 # Influx DB
