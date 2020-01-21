@@ -1,4 +1,4 @@
-FROM amd64/centos:latest
+FROM amd64/centos:centos7
 
 # Enabled systemd
 ENV container docker
@@ -24,12 +24,10 @@ COPY rootfs/ /
 RUN yum install -y epel-release
 RUN yum update -y
 RUN yum install -y net-tools initscripts wget git
-RUN wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-RUN yum install epel-release-latest-7.noarch.rpm -y
 
 # Python 3.6.7 + pip
 RUN yum install -y https://centos7.iuscommunity.org/ius-release.rpm
-RUN yum install -y python36u python36u-libs python36u-devel python36u-pip --nobest
+RUN yum install -y python36u python36u-libs python36u-devel python36u-pip
 
 
 # Influx DB
