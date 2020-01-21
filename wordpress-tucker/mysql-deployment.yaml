@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-tucker-mysql
+  labels:
+    app: wordpress-tucker
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: wordpress-tucker
+    tier: mysql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-tucker-pv-claim
+  labels:
+    app: wordpress-tucker
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: wordpress-tucker-mysql
+  labels:
+    app: wordpress-tucker
+spec:
+  selector:
+    matchLabels:
+      app: wordpress-tucker
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress-tucker
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql-tucker
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-tucker-pv
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-tucker-pv
+        persistentVolumeClaim:
+          claimName: mysql-tucker-pv-claim

@@ -3,7 +3,7 @@ name: Docker Build and Push
 on: push
 
 jobs:
-  docker:
+  docker-nginx:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,3 +18,18 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: /github/workspace/nginx-docker
+  docker-varken:
+    runs-on: centos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with: 
+          fetch-depth: 1
+
+      - name: Build and Push Docker Image
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: sperkins/perkplex-varken        
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          workdir: /github/workspace/varken-docker

@@ -60,3 +60,6 @@ data:
 
     [acme.httpChallenge]
       entryPoint="http"
+
+      #    [acme.dnsChallenge]
+      #      provider = "godaddy"

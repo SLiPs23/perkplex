@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-tucker
+  namespace: default
+  labels:
+    app: wordpress-tucker
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: wordpress-tucker
+    tier: frontend
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-tucker-pv-claim
+  labels:
+    app: wordpress-tucker
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: wordpress-tucker
+  labels:
+    app: wordpress-tucker
+spec:
+  selector:
+    matchLabels:
+      app: wordpress-tucker
+      tier: frontend
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress-tucker
+        tier: frontend
+    spec:
+      containers:
+      - image: wordpress:5.2.4-php7.2-apache
+        name: wordpress-tuck
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: wordpress-tucker-mysql
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 80
+          name: wordpress-tuck
+        volumeMounts:
+        - name: wordpress-tucker-pv
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-tucker-pv
+        persistentVolumeClaim:
+          claimName: wp-tucker-pv-claim
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
