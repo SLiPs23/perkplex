@@ -1,0 +1,30 @@
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: varken-volume-claim
+  labels:
+    app: varken
+spec:
+  storageClassName: nfs-client
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: varken
+  name: varken
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: varken

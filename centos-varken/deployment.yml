@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: varken
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: varken
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: varken
+    spec:
+      hostname: varken
+      restartPolicy: Always
+      containers:
+      - name: varken
+        image: h1f0x/centos-varken
+        securityContext:
+          privileged: true
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: varken-env
+        volumeMounts:
+          - mountPath: /config
+            name: varken-volume
+      volumes:
+        - name: varken-volume
+          persistentVolumeClaim:
+            claimName: varken-volume-claim
