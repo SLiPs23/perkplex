@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plexpy-volume-claim
+  name: tautulli-volume-claim
 spec:
   storageClassName: nfs-client
   accessModes:
@@ -22,8 +22,8 @@ metadata:
     kompose.version: 1.1.0 (36652f6)
   creationTimestamp: null
   labels:
-    io.kompose.service: plexpy
-  name: plexpy
+    io.kompose.service: tautulli
+  name: tautulli
 spec:
   replicas: 1
   strategy:
@@ -32,7 +32,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: plexpy
+        io.kompose.service: tautulli
     spec:
       containers:
       - env:
@@ -41,22 +41,22 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: plexpy.perkplex.geekgalaxy.com
+          value: tautulli.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8181"
-        image: linuxserver/plexpy
-        name: plexpy
+          image: linuxserver/tautulli:latest
+        name: tautulli
         ports:
         - containerPort: 8181
         resources: {}
         volumeMounts:
         - mountPath: /config
-          name: plexpy-volume
+          name: tautulli-volume
       restartPolicy: Always
       volumes:
-      - name: plexpy-volume
+      - name: tautulli-volume
         persistentVolumeClaim:
-          claimName: plexpy-volume-claim
+          claimName: tautulli-volume-claim
 status: {}
 
 ---
@@ -69,8 +69,8 @@ metadata:
     kompose.version: 1.1.0 (36652f6)
   creationTimestamp: null
   labels:
-    io.kompose.service: plexpy
-  name: plexpy
+    io.kompose.service: tautulli
+  name: tautulli
 spec:
   type: NodePort
   ports:
@@ -78,4 +78,4 @@ spec:
     port: 8181
     targetPort: 8181
   selector:
-    io.kompose.service: plexpy
+    io.kompose.service: tautulli

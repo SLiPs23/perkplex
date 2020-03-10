@@ -42,7 +42,7 @@ spec:
           value: muximux.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8080"
-        image: linuxserver/muximux
+          image: linuxserver/muximux:latest
         name: muximux
         resources: {}
         volumeMounts:
