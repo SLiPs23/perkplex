@@ -29,7 +29,7 @@ metadata:
   name: traefik-ingress-lb-external
   namespace: kube-system
   labels:
-    traffic-type: internal
+    traffic-type: external
 spec:
   rules:
   - host: traefik-ext.perkplex.geekgalaxy.com

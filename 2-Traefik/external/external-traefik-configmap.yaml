@@ -28,6 +28,8 @@ data:
         [entryPoints.https.tls]
 
     [api]
+      entryPoint = "traefik-dashboard"
+      dashboard = true
       [api.statistics]
         recentErrors = 10
 
