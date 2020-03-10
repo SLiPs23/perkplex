@@ -3,3 +3,7 @@
 ## PerkPlex Dot GeekGalaxy Dot Com 
 
 This repo contains configurations for my plex setup as well as configurations for my kubernetes setup. More detailed README coming soon!
+
+## Plex Setup
+
+## Kubernetes Setup
