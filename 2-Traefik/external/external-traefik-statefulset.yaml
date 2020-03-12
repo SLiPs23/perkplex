@@ -37,11 +37,6 @@ spec:
       containers:
       - image: traefik:v1.7
         name: traefik-ingress-lb
-        env:
-        - name: GODADDY_API_KEY
-          value: dLYuxn4vm3KB_8LAaG5ynEW4H7HFdLEHXQx
-        - name: GODADDY_API_SECRET
-          value: SFeRpaN2Egh8YCGXP1MGKJ
         ports:
          - name: http
            containerPort: 80
@@ -52,7 +47,6 @@ spec:
         args:
         - --api
         - --configfile=/config/traefik.toml
-        - --insecureskipverify
         livenessProbe:
           httpGet:
             path: /health
