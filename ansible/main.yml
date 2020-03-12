@@ -9,7 +9,7 @@
     #New user to be created
     new_user: sperkins
     kubernetes_version: "1.17.3-00"
-    docker_version: "18.06.1~ce~3-0~debian"
+    docker_version: "5:19.03.7~3-0~debian-buster"
 
   pre_tasks:
   - name: Install python2 for Ansible
@@ -82,13 +82,13 @@
       line: "%wheel ALL=(ALL) NOPASSWD: ALL"
       validate: "visudo -cf %s"
 
-  - name: Create user and add to sudoers
-    user:
-      name: "{{ new_user }}"
-      groups: wheel
-      append: yes
-      state: present
-      createhome: yes
+#  - name: Create user and add to sudoers
+#    user:
+#      name: "{{ new_user }}"
+#      groups: wheel
+#      append: yes
+#      state: present
+#      createhome: yes
 
 # Place a public key file in the same dir and uncomment lines below to add key to the new user
 #  - name: Set up authorized keys for the user
@@ -133,6 +133,8 @@
       packages:
         - docker-ce={{docker_version}}
         - docker-compose
+        - docker-ce-cli
+        - containerd.io
 
   - name: Add Kubernetes GPG key
     apt_key: url=https://packages.cloud.google.com/apt/doc/apt-key.gpg

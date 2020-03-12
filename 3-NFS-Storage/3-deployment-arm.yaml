@@ -1,13 +1,16 @@
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: nfs-client-provisioner
   annotations:
   namespace: kube-system
 spec:
-  replicas: 4
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  replicas: 1
   strategy:
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -16,13 +19,13 @@ spec:
       serviceAccount: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner-arm:latest
+          image: quay.io/external_storage/nfs-client-provisioner:latest
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
-              value: nfs-provisioner
+              value: nfs-provisioner/nfs-client
             - name: NFS_SERVER
               value: Perk-Kube-Master
             - name: NFS_PATH

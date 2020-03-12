@@ -35,32 +35,6 @@ server {
         proxy_set_header   X-Forwarded-Proto https;
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
 
-	location /plexstats {
-	proxy_pass http://192.168.1.44:30719;
-	}
-
-	location /muximux {
-	proxy_pass http://192.168.1.44:31186/;
-	}
-
-	location /plexrequest {		
-	return 301 $scheme://$host/plexrequest;		
-	}
-
-	location /plexrequest/ {
-	proxy_pass http://192.168.1.44:30289;
-	proxy_max_temp_file_size 0;
-	proxy_set_header X-Forwarded-Host $server_name;
-	proxy_set_header X-Forwarded-Ssl on;
-	proxy_set_header X-Forwarded-Proto $scheme;
-	proxy_read_timeout  90;
-	proxy_redirect http://192.168.1.44:30289 https://$host;
-	auth_basic "off";
-	}
-	if ($http_referer ~* /plexrequest/) {
-	rewrite ^/dist/(.*) $scheme://$host/plexrequest/dist/$1 permanent;
-	}
-
 	location /couch {
 	proxy_set_header Host 192.168.1.6;
 	proxy_pass http://192.168.1.6:5050;

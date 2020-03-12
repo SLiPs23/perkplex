@@ -14,22 +14,14 @@ data:
       [entryPoints.http]
         address = ":80"
         compress = true
-        [entryPoints.http.whitelist]
-          sourceRange = ["192.0.64.0/18"]
-          useXForwardedFor = true
         [entryPoints.http.redirect]
         entryPoint = "https"
       [entryPoints.https]
         address = ":443"
         compress = true
-        [entryPoints.https.whitelist]
-          sourceRange = ["192.0.64.0/18"]
-          useXForwardedFor = true
         [entryPoints.https.tls]
 
     [api]
-      entryPoint = "traefik-dashboard"
-      dashboard = true
       [api.statistics]
         recentErrors = 10
 
@@ -62,6 +54,3 @@ data:
 
     [acme.httpChallenge]
       entryPoint="http"
-
-      #    [acme.dnsChallenge]
-      #      provider = "godaddy"

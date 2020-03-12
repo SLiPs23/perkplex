@@ -14,7 +14,7 @@ spec:
 
 ---
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -25,6 +25,9 @@ metadata:
     io.kompose.service: tautulli
   name: tautulli
 spec:
+  selector:
+    matchLabels:
+      io.kompose.service: tautulli
   replicas: 1
   strategy:
     type: Recreate
@@ -44,7 +47,7 @@ spec:
           value: tautulli.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8181"
-          image: linuxserver/tautulli:latest
+        image: linuxserver/tautulli:latest
         name: tautulli
         ports:
         - containerPort: 8181

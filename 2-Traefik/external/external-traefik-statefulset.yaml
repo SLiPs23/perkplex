@@ -53,7 +53,6 @@ spec:
         - --api
         - --configfile=/config/traefik.toml
         - --insecureskipverify
-        - --passHostHeader = true
         livenessProbe:
           httpGet:
             path: /health

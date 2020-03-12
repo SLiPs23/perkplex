@@ -125,7 +125,7 @@ items:
       - kind: ServiceAccount
         name: weave-scope
         namespace: weave
-  - apiVersion: apps/v1beta1
+  - apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: weave-scope-app
@@ -145,6 +145,9 @@ items:
         weave-scope-component: app
       namespace: weave
     spec:
+      selector:
+        matchLabels:
+          app: weave-scope
       replicas: 1
       revisionHistoryLimit: 2
       template:
@@ -162,7 +165,7 @@ items:
               command:
                 - /home/weave/scope
               env: []
-              image: sperkins/scope:master-fdd1c263
+              image: sperkins/scope:latest
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 4040
@@ -197,7 +200,7 @@ items:
         app: weave-scope
         weave-cloud-component: scope
         weave-scope-component: app
-  - apiVersion: extensions/v1beta1
+  - apiVersion: apps/v1
     kind: DaemonSet
     metadata:
       name: weave-scope-agent
@@ -217,6 +220,9 @@ items:
         weave-scope-component: agent
       namespace: weave
     spec:
+      selector:
+        matchLabels:
+          app: weave-scope
       minReadySeconds: 5
       template:
         metadata:
@@ -243,7 +249,7 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
-              image: sperkins/scope:d6bbf690
+              image: sperkins/scope:latest
               imagePullPolicy: IfNotPresent
               resources:
                 requests:
