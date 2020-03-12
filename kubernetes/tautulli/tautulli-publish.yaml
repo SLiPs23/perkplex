@@ -44,7 +44,7 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: tautulli.perkplex.geekgalaxy.com
+          value: tautulli.ext.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8181"
         image: linuxserver/tautulli:latest

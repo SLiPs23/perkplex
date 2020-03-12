@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: muximux-external
+  namespace: default
+  labels:
+    traffic-type: external
+  annotations:
+    traefik.frontend.rule.type: PathPrefix
+spec:
+  rules:
+  - host: muximux.ext.perkplex.geekgalaxy.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: muximux
+          servicePort: 80

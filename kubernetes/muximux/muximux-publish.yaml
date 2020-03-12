@@ -12,7 +12,7 @@ spec:
       storage: 20Gi
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -23,6 +23,9 @@ metadata:
     io.kompose.service: muximux
   name: muximux
 spec:
+  selector:
+    matchLabels:
+      io.kompose.service: muximux
   replicas: 2
   strategy:
     type: Recreate
@@ -39,10 +42,10 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: muximux.perkplex.geekgalaxy.com
+          value: muximux.ext.perkplex.geekgalaxy.com
         - name: VIRTUAL_PORT
           value: "8080"
-          image: linuxserver/muximux:latest
+        image: linuxserver/muximux:latest
         name: muximux
         resources: {}
         volumeMounts:
