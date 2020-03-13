@@ -1,5 +1,4 @@
 ---
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -15,7 +14,6 @@ spec:
       storage: 20Gi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -28,3 +26,91 @@ spec:
     targetPort: 3000
   selector:
     app: varken
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: varken-env
+  namespace: default
+data:
+  TZ: "America/Detroit"
+  VRKN_GLOBAL_SONARR_SERVER_IDS: "1"
+  VRKN_GLOBAL_RADARR_SERVER_IDS: "false"
+  VRKN_GLOBAL_LIDARR_SERVER_IDS: "false"
+  VRKN_GLOBAL_TAUTULLI_SERVER_IDS: "1"
+  VRKN_GLOBAL_OMBI_SERVER_IDS: "1"
+  VRKN_GLOBAL_SICKCHILL_SERVER_IDS: "false"
+  VRKN_GLOBAL_UNIFI_SERVER_IDS: "false"
+  MAXMIND_LICENSE_KEY: j6plDoIqLUrgqEDl
+  VRKN_INFLUXDB_URL: "influxdb"
+  VRKN_INFLUXDB_PORT: "8086"
+  VRKN_INFLUXDB_SSL: "false"
+  VRKN_INFLUXDB_VERIFY_SSL: "false"
+  VRKN_INFLUXDB_USERNAME: "root"
+  VRKN_INFLUXDB_PASSWORD: "root"
+  VRKN_TAUTULLI_1_URL: "tautulli.ext.perkplex.geekgalaxy.com/home"
+  VRKN_TAUTULLI_1_FALLBACK_IP: "98.243.11.67"
+  VRKN_TAUTULLI_1_APIKEY: "cf89759a491b44c7b54f3a5fa99f79ea"
+  VRKN_TAUTULLI_1_SSL: "true"
+  VRKN_TAUTULLI_1_VERIFY_SSL: "false"
+  VRKN_TAUTULLI_1_GET_ACTIVITY: "true"
+  VRKN_TAUTULLI_1_GET_ACTIVITY_RUN_SECONDS: "30"
+  VRKN_TAUTULLI_1_GET_STATS: "true"
+  VRKN_TAUTULLI_1_GET_STATS_RUN_SECONDS: "30"
+  VRKN_SONARR_1_URL: "perkplex.geekgalaxy.com/sonarr"
+  VRKN_SONARR_1_APIKEY: "d36eee5717a54dc49a066bb39929ec1b"
+  VRKN_SONARR_1_SSL: "true"
+  VRKN_SONARR_1_VERIFY_SSL: "false"
+  VRKN_SONARR_1_MISSING_DAYS: "7"
+  VRKN_SONARR_1_MISSING_DAYS_RUN_SECONDS: "30"
+  VRKN_SONARR_1_FUTURE_DAYS: "1"
+  VRKN_SONARR_1_FUTURE_DAYS_RUN_SECONDS: "30"
+  VRKN_SONARR_1_QUEUE: "true"
+  VRKN_SONARR_1_QUEUE_RUN_SECONDS: "30"
+  VRKN_OMBI_1_URL: "ombi.ext.perkplex.geekgalaxy.com"
+  VRKN_OMBI_1_APIKEY: "f95fef7b7cb64f939ec36b622c715ff8"
+  VRKN_OMBI_1_SSL: "true"
+  VRKN_OMBI_1_VERIFY_SSL: "true"
+  VRKN_OMBI_1_GET_REQUEST_TYPE_COUNTS: "true"
+  VRKN_OMBI_1_REQUEST_TYPE_RUN_SECONDS: "30"
+  VRKN_OMBI_1_GET_REQUEST_TOTAL_COUNTS: "true"
+  VRKN_OMBI_1_REQUEST_TOTAL_RUN_SECONDS: "30"
+  VRKN_OMBI_1_GET_ISSUE_STATUS_COUNTS: "true"
+  VRKN_OMBI_1_ISSUE_STATUS_RUN_SECONDS: "30"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: varken
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: varken
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: varken
+    spec:
+      hostname: varken
+      restartPolicy: Always
+      containers:
+      - name: varken
+        image: sperkins/perkplex-varken:latest
+        securityContext:
+          privileged: true
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: varken-env
+        volumeMounts:
+          - mountPath: /config
+            name: varken-volume
+      volumes:
+        - name: varken-volume
+          persistentVolumeClaim:
+            claimName: varken-volume-claim
