@@ -32,7 +32,7 @@ metadata:
     traffic-type: external
 spec:
   rules:
-  - host: traefik-ext.perkplex.geekgalaxy.com
+  - host: traefik.ext.perkplex.geekgalaxy.com
     http:
       paths:
       - path: /

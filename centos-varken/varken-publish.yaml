@@ -49,7 +49,7 @@ data:
   VRKN_INFLUXDB_VERIFY_SSL: "false"
   VRKN_INFLUXDB_USERNAME: "root"
   VRKN_INFLUXDB_PASSWORD: "root"
-  VRKN_TAUTULLI_1_URL: "tautulli.ext.perkplex.geekgalaxy.com/home"
+  VRKN_TAUTULLI_1_URL: "tautulli.ext.perkplex.geekgalaxy.com"
   VRKN_TAUTULLI_1_FALLBACK_IP: "98.243.11.67"
   VRKN_TAUTULLI_1_APIKEY: "cf89759a491b44c7b54f3a5fa99f79ea"
   VRKN_TAUTULLI_1_SSL: "true"
