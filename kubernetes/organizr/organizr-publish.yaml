@@ -1,0 +1,79 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: organizr-volume-claim
+spec:
+  storageClassName: nfs-client
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: organizr
+  name: organizr
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: organizr
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: organizr
+    spec:
+      containers:
+      - env:
+        - name: PGID
+          value: "1000"
+        - name: PUID
+          value: "1000"
+        - name: VIRTUAL_HOST
+          value: organizr.ext.perkplex.geekgalaxy.com
+        - name: VIRTUAL_PORT
+          value: "80"
+        image: organizrtools/organizr-v2:latest
+        name: organizr
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: organizr-volume
+      restartPolicy: Always
+      volumes:
+      - name: organizr-volume
+        persistentVolumeClaim:
+          claimName: organizr-volume-claim
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: organizr
+  name: organizr
+spec:
+  type: NodePort
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  selector:
+    io.kompose.service: organizr
