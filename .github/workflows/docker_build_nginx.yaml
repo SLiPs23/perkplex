@@ -1,5 +1,4 @@
 name: Nginx Docker Build and Push
-
 on:
   release:
       types: [published]
@@ -20,5 +19,5 @@ jobs:
         name: sperkins/perkplex-nginx         
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        workdir: /github/workspace/nginx-docker
         tags: "latest,${{ env.RELEASE_VERSION }}"
+        workdir: /github/workspace/nginx-docker

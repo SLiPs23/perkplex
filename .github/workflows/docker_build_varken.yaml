@@ -19,5 +19,5 @@ jobs:
         name: sperkins/perkplex-varken         
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        workdir: /github/workspace/centos-varken
         tags: "latest,${{ env.RELEASE_VERSION }}"
+        workdir: /github/workspace/centos-varken
