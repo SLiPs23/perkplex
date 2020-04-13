@@ -1,5 +1,4 @@
 name: Varken Docker Build and Push
-
 on:
   release:
       types: [published]
@@ -7,12 +6,10 @@ on:
     branches:
       - master
 jobs:
-  docker-nginx:
+  build-varken:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-      with: 
-        fetch-depth: 1
     - name: Get Release Version
       id: get_version
       run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
