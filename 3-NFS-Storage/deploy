@@ -1,7 +1,0 @@
-#!/bin/bash
-kubectl apply -f .
-kubectl patch storageclass nfs-ssd1 -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-kubectl patch deployment nfs-client-provisioner -n kube-system --patch '{"spec": {"template": {"spec": {"nodeSelector": {"beta.kubernetes.io/arch": "arm64"}}}}}'
-
-
-helm install stable/nfs-client-provisioner --set nfs.server=192.168.1.44 --set nfs.path=/exported/path

@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-client-provisioner
+  annotations:
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccount: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: nfs-provisioner/nfs-client
+            - name: NFS_SERVER
+              value: Perk-Kube-Master
+            - name: NFS_PATH
+              value: /data/kubernetes-storage
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nfs-client-provisioner
+              topologyKey: kubernetes.io/hostname
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: Perk-Kube-Master
+            path: /data/kubernetes-storage

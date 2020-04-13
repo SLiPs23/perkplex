@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: consul-ui
+  namespace: kube-system
+spec:
+  rules:
+  - host: consul.int.perkplex.geekgalaxy.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: consul-traefik-ui
+          servicePort: http
