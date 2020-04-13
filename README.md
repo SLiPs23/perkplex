@@ -7,3 +7,5 @@ This repo contains configurations for my plex setup as well as configurations fo
 ## Plex Setup
 
 ## Kubernetes Setup
+
+## Git Actions
