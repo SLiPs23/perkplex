@@ -2,9 +2,6 @@ name: Varken Docker Build and Push
 on:
   release:
       types: [published]
-  push:
-    branches:
-      - master
 jobs:
   build-varken:
     runs-on: ubuntu-latest

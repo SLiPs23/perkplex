@@ -9,5 +9,3 @@ This repo contains configurations for my plex setup as well as configurations fo
 ## Kubernetes Setup
 
 ## Git Actions
-
-## Issues

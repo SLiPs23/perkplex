@@ -27,7 +27,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: sperkins/perkplex-nginx
+      - image: sperkins/perkplex-nginx:latest
         imagePullPolicy: Always
         name: perkplex-nginx
         resources: {}
