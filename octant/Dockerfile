@@ -15,6 +15,6 @@ RUN apt-get update -qq \
 ENV OCTANT_NAMESPACE="default"
 ENV OCTANT_LISTENER_ADDR="0.0.0.0:9000"
 ENV KUBECONFIG="/output/config.yaml"
-ENV OCTANT_CONTEXT="kubernetes-admin@kubernetes""
+ENV OCTANT_CONTEXT="kubernetes-admin@kubernetes"
 
 CMD ["/usr/local/bin/octant"]
