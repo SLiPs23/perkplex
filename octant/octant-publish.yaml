@@ -37,15 +37,17 @@ spec:
     spec:
       containers:
       - env:
-        - name: PGID
-          value: "1000"
-        - name: PUID
-          value: "1000"
+        - name: OCTANT_NAMESPACE
+          value: "default"
+        - name: KUBECONFIG
+          value: "/output/config.yaml"
         - name: VIRTUAL_HOST
           value: octant.ext.perkplex.geekgalaxy.com
-        - name: VIRTUAL_PORT
-          value: "9000"
-        image: sperkins/perkplex-octant:v0.1.0
+        - name: OCTANT_LISTENER_ADDR
+          value: "0.0.0.0:9000"
+        - name: OCTANT_CONTEXT
+          value: "kubernetes-admin@kubernetes"
+        image: sperkins/perkplex-octant:latest
         name: octant
         resources: {}
         volumeMounts:

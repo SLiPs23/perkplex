@@ -12,8 +12,9 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Global variables for octant runtime
-ENV OCTANT_NAMESPACE=${OCTANT_NAMESPACE:-"default"}
-ENV OCTANT_LISTENER_ADDR=${OCTANT_LISTENER_ADDR:-"0.0.0.0:9000"}
-ENV KUBECONFIG=${KUBECONFIG:-"/output/kubeconfig.yaml"}
+ENV OCTANT_NAMESPACE="default"
+ENV OCTANT_LISTENER_ADDR="0.0.0.0:9000"
+ENV KUBECONFIG="/output/config.yaml"
+ENV OCTANT_CONTEXT="kubernetes-admin@kubernetes""
 
 CMD ["/usr/local/bin/octant"]
