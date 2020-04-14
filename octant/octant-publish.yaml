@@ -40,24 +40,32 @@ spec:
         - name: OCTANT_NAMESPACE
           value: "default"
         - name: KUBECONFIG
-          value: "/output/config.yaml"
+          value: "/etc/kubernetes/admin.conf"
         - name: VIRTUAL_HOST
           value: octant.ext.perkplex.geekgalaxy.com
         - name: OCTANT_LISTENER_ADDR
           value: "0.0.0.0:9000"
         - name: OCTANT_CONTEXT
           value: "kubernetes-admin@kubernetes"
+        - name: OCTANT_DISABLE_CLUSTER_OVERVIEW
+          value: "true"
         image: sperkins/perkplex-octant:latest
         name: octant
         resources: {}
         volumeMounts:
         - mountPath: /config
           name: octant-volume
+        - mountPath: /etc/kubernetes/admin.conf
+          name: kubeconfig
+          readOnly: true
       restartPolicy: Always
       volumes:
       - name: octant-volume
         persistentVolumeClaim:
           claimName: octant-volume-claim
+      - name: kubeconfig
+        hostPath:
+          path: /etc/kubernetes/admin.conf
 status: {}
 
 ---

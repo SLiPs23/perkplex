@@ -14,7 +14,8 @@ RUN apt-get update -qq \
 # Set Global variables for octant runtime
 ENV OCTANT_NAMESPACE=${OCTANT_NAMESPACE:-"default"}
 ENV OCTANT_LISTENER_ADDR=${OCTANT_LISTENER_ADDR:-"0.0.0.0:9000"}
-ENV KUBECONFIG=${KUBECONFIG:-"/output/config.yaml"}
+ENV KUBECONFIG=${KUBECONFIG:-"/etc/kubernetes/admin.conf"}
 ENV OCTANT_CONTEXT=${OCTANT_CONTEXT:-"kubernetes-admin@kubernetes"}
+ENV OCTANT_DISABLE_CLUSTER_OVERVIEW=${OCTANT_DISABLE_CLUSTER_OVERVIEW:-"true"}
 
 CMD ["/usr/local/bin/octant"]
