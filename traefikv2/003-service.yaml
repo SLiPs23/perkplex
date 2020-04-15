@@ -17,6 +17,8 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
+  externalIPs:
+  - 192.168.1.125
   externalTrafficPolicy: Cluster
   ports:
   - name: web
