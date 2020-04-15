@@ -60,6 +60,3 @@ spec:
     accessControlAllowHeaders:
       - "Content-Type"
     addVaryHeader: "true"
-
-
-
