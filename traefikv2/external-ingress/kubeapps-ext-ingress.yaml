@@ -1,18 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: kubeapps-external
+  name: kubeapps
   namespace: kubeapps
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
 spec:
-  rules:
-  - host: kubeapps.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kubeapps
-          servicePort: 80
+  routes:
+  - match: Host(`kubeapps.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: kubeapps
+      port: 80
+  tls:
+    certResolver: default

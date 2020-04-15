@@ -1,18 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: ombi-external
+  name: ombi
   namespace: default
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
 spec:
-  rules:
-  - host: ombi.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: ombi
-          servicePort: 3579
+  routes:
+  - match: Host(`ombi.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: ombi
+      port: 3579
+  tls:
+    certResolver: default

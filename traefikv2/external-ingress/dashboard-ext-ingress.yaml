@@ -1,23 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: kubernetes-dashboard-external
-  namespace: kube-system
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
-    #traefik.frontend.redirect.entryPoint: https
-    #traefik.frontend.redirect.regex: ^http://(.*)
-    #traefik.frontend.redirect.replacement: https://$1
-    ingress.kubernetes.io/auth-type: basic
-    ingress.kubernetes.io/auth-secret: ingress-auth
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
 spec:
-  rules:
-  - host: dashboard.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kubernetes-dashboard
-          servicePort: 80
+  routes:
+  - match: Host(`dashboard.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: kubernetes-dashboard
+      port: 80
+  tls:
+    certResolver: default

@@ -1,18 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: organizr-external
+  name: organizr
   namespace: default
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
 spec:
-  rules:
-  - host: organizr.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: organizr
-          servicePort: 80
+  routes:
+  - match: Host(`organizr.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: organizr
+      port: 80
+  tls:
+    certResolver: default

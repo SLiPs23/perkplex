@@ -1,18 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: scope-dashboard-ext
+  name: weave
   namespace: weave
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
 spec:
-  rules:
-  - host: scope.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: weave-scope-app
-          servicePort: 80
+  routes:
+  - match: Host(`weave.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: weave-scope-app
+      port: 80
+  tls:
+    certResolver: default

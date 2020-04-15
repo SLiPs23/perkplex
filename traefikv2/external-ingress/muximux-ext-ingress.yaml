@@ -1,18 +1,14 @@
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: muximux-external
+  name: muximux
   namespace: default
-  labels:
-    traffic-type: external
-  annotations:
-    traefik.frontend.rule.type: PathPrefix
 spec:
-  rules:
-  - host: muximux.ext.perkplex.geekgalaxy.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: muximux
-          servicePort: 80
+  routes:
+  - match: Host(`muximux.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: muximux
+      port: 80
+  tls:
+    certResolver: default
