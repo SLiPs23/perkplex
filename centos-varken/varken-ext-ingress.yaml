@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: varken
+  namespace: default
+spec:
+  routes:
+  - match: Host(`varken.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: varken
+      port: 3000
+  tls:
+    certResolver: default

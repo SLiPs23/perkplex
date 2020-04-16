@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  routes:
+  - match: Host(`dashboard.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: kubernetes-dashboard
+      port: 80
+  tls:
+    certResolver: default

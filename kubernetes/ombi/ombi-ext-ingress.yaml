@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ombi
+  namespace: default
+spec:
+  routes:
+  - match: Host(`ombi.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: ombi
+      port: 3579
+  tls:
+    certResolver: default

@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: weave
+  namespace: weave
+spec:
+  routes:
+  - match: Host(`weave.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: weave-scope-app
+      port: 80
+  tls:
+    certResolver: default

@@ -29,14 +29,9 @@ spec:
         emptyDir: {}
       containers:
       - name: metrics-server
-        image: k8s.gcr.io/metrics-server-amd64:v0.3.1
-        command:
-          - /metrics-server
-          - --kubelet-insecure-tls
-          - --kubelet-preferred-address-types=InternalIP
+        image: k8s.gcr.io/metrics-server-amd64:v0.3.6
         imagePullPolicy: Always
         volumeMounts:
         - name: tmp-dir
           mountPath: /tmp
-      nodeSelector:
-        beta.kubernetes.io/arch: amd64
+

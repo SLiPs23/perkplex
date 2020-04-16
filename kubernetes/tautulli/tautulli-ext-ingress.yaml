@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tautulli
+  namespace: default
+spec:
+  routes:
+  - match: Host(`tautulli.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: tautulli
+      port: 8181
+  tls:
+    certResolver: default

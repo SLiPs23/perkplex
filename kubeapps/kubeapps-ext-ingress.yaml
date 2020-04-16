@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubeapps
+  namespace: kubeapps
+spec:
+  routes:
+  - match: Host(`kubeapps.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: kubeapps
+      port: 80
+  tls:
+    certResolver: default
