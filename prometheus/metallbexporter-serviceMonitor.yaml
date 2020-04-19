@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: metallb
+  name: metallb-exporter
+  namespace: monitoring
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+    scheme: http
+  jobLabel: metallb-exporter
+  namespaceSelector:
+    matchNames:
+    - metallb-system
+  selector:
+    matchLabels:
+      app: metallb

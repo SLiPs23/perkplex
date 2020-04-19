@@ -1,17 +1,20 @@
-#####################################################
-# Secure traefik dashboard with https and basic auth
-#####################################################
-
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: traefik-dashboard
+  namespace: kube-system
 spec:
-  routes:
-  - match: Host(`traefik.perkplex.geekgalaxy.com`)
-    kind: Rule
-    services:
-    - name: api@internal
-      kind: TraefikService
+  rules:
+  - host: traefik.perkplex.geekgalaxy.com
+    http:
+      paths:
+      - backend:
+          serviceName: traefik
+          servicePort: 8100
+        path: /
   tls:
-    certResolver: default
+  - hosts:
+    - traefik.perkplex.geekgalaxy.com
+    secretName: cm-traefik-cert

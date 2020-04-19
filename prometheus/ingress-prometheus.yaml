@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-k8s
+  namespace: monitoring
+spec:
+  routes:
+  - match: Host(`prometheus.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: prometheus-k8s
+      port: 9090
+  tls:
+    certResolver: default

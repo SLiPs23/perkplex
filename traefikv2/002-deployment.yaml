@@ -15,6 +15,9 @@ spec:
       release: traefik
   template:
     metadata:
+      annotations:
+        prometheus.io/port: '8082'
+        prometheus.io/scrape: 'true'
       labels:
         app: traefik
         release: traefik
@@ -23,7 +26,6 @@ spec:
       - args:
 
         - --api
-        #- --api.insecure
         - --api.insecure=false
         - --api.dashboard=true
         - --accesslog
@@ -31,22 +33,28 @@ spec:
         - --entryPoints.traefik.address=:8100
         - --entryPoints.web.address=:80
         - --entryPoints.websecure.address=:443
-
-        # permanent redirecting of all requests on http (80) to https (443)
-        - --entrypoints.web.http.redirections.entryPoint.to=websecure
-        - --entrypoints.websecure.http.tls.certResolver=default
-
-        # Let's Encrypt Configurtion:
-        # Please note that this is the staging Let's Encrypt server configuration.
-        # Once you get things working, you should remove that following line.
-        - --certificatesresolvers.default.acme.httpchallenge=true
-        - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
-       #- --certificatesresolvers.default.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-        - --certificatesresolvers.default.acme.email=sperkins@gmail.com
-        - --certificatesresolvers.default.acme.storage=acme.json
+        - --entryPoints.metrics.address=:8082
         - --ping=true
         - --providers.kubernetescrd=true
         - --providers.kubernetesingress=true
+
+        # Redirect http to https
+        - --entrypoints.web.http.redirections.entryPoint.to=websecure
+        - --entrypoints.websecure.http.tls.certResolver=default
+
+        # Using Cert Manager to manage certs, leaving these setting in case I want to revert
+        - --certificatesresolvers.default.acme.httpchallenge=true
+        - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
+        - --certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+        - --certificatesresolvers.default.acme.email=seanlperkins@icloud.com
+        - --certificatesresolvers.default.acme.storage=/data/acme.json
+
+        # Send metrics to Prometheus
+        - --metrics.prometheus=true
+        - --metrics.prometheus.buckets=0.100000, 0.300000, 1.200000, 5.000000
+        - --metrics.prometheus.entryPoint=metrics
+        - --metrics.prometheus.addEntryPointsLabels=true
+        - --metrics.prometheus.addServicesLabels=true
 
         # Use log level= INFO or DEBUG
         - --log.level=INFO
@@ -73,6 +81,9 @@ spec:
         - containerPort: 443
           name: websecure
           protocol: TCP
+        - containerPort: 8082
+          name: metrics
+          protocol: TCP
         readinessProbe:
           failureThreshold: 1
           httpGet:
@@ -83,6 +94,9 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 2
+        volumeMounts:
+        - name: storage-volume
+          mountPath: /data
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
@@ -93,3 +107,7 @@ spec:
       serviceAccount: traefik
       serviceAccountName: traefik
       terminationGracePeriodSeconds: 60
+      volumes:
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: traefik-acme-storage

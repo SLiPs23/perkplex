@@ -29,6 +29,11 @@ spec:
         emptyDir: {}
       containers:
       - name: metrics-server
+        args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
+        - --kubelet-insecure-tls
+        - --kubelet-preferred-address-types=InternalIP  
         image: k8s.gcr.io/metrics-server-amd64:v0.3.6
         imagePullPolicy: Always
         volumeMounts:
