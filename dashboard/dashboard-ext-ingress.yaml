@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: traefik
   name: kubernetes-dashboard
   namespace: kubernetes-dashboard
 spec:
@@ -17,4 +18,4 @@ spec:
   tls: 
   - hosts:
     - dashboard.perkplex.geekgalaxy.com
-    secretName: cm-k8s-dashboard-cert
+    secretName: kubernetes-dashboard-certs

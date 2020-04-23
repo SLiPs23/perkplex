@@ -1,14 +1,22 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
   name: kubernetes-dashboard
   namespace: kubernetes-dashboard
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: traefik
+
 spec:
-  routes:
-  - match: Host(`dashboard.perkplex.geekgalaxy.com`)
-    kind: Rule
-    services:
-    - name: kubernetes-dashboard
-      port: 80
-  tls:
-    certResolver: default
+  rules:
+  - host: dashboard.perkplexserver.com
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
+        path: /
+  tls: 
+  - hosts:
+    - dashboard.perkplexserver.com
+    secretName: kubernetes-dashboard-certs

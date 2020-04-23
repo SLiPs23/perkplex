@@ -9,9 +9,12 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:
-    - http01:
-        ingress:
-          class: traefik
+    - dns01:
+        cloudflare:
+          email: seanlperkins@yahoo.com
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token
       selector:
         dnsZones:
-        - 'perkplex.geekgalaxy.com'
+        - 'perkplexserver.com'
