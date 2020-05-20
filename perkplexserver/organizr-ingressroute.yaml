@@ -1,0 +1,34 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: default-ssl-cert
+  namespace: default
+spec:
+  secretName: default-ssl-cert
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.perkplexserver.com'
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: organizr
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`organizr.perkplexserver.com`)
+      middlewares:
+        - name: https
+        - name: compress
+      kind: Rule
+      services:
+        - name: organizr
+          port: 80
+  tls:
+    secretName: default-ssl-cert

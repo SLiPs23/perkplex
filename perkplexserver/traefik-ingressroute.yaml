@@ -1,0 +1,28 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: kube-system-ssl-cert
+  namespace: kube-system
+spec:
+  secretName: kube-system-ssl-cert
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.perkplexserver.com'
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+spec:
+  routes:
+  - match: Host(`traefik.perkplexserver.com`)
+    kind: Rule
+    services:
+    - name: api@internal
+      kind: TraefikService
+  tls:
+    secretName: default-ssl-cert

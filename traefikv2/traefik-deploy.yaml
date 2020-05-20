@@ -8,7 +8,7 @@ metadata:
   namespace: kube-system
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: traefik
@@ -24,30 +24,29 @@ spec:
     spec:
       containers:
       - args:
-
         - --api
         - --api.insecure=false
         - --api.dashboard=true
         - --accesslog
         - --global.checknewversion=true
-        - --entryPoints.traefik.address=:8100
         - --entryPoints.web.address=:80
         - --entryPoints.websecure.address=:443
         - --entryPoints.metrics.address=:8082
+        - --entryPoints.traefik.address=:8100
         - --ping=true
         - --providers.kubernetescrd=true
         - --providers.kubernetesingress=true
 
         # Redirect http to https
-        - --entrypoints.web.http.redirections.entryPoint.to=websecure
-        - --entrypoints.websecure.http.tls.certResolver=default
+        #- --entrypoints.web.http.redirections.entryPoint.to=websecure
+        #- --entrypoints.websecure.http.tls.certResolver=default
 
-        # Using Cert Manager to manage certs, leaving these setting in case I want to revert
-        - --certificatesresolvers.default.acme.httpchallenge=true
-        - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
-        - --certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
-        - --certificatesresolvers.default.acme.email=seanlperkins@icloud.com
-        - --certificatesresolvers.default.acme.storage=/data/acme.json
+          # Using Cert Manager to manage certs, leaving these setting in case I want to revert
+          #- --certificatesresolvers.default.acme.httpchallenge=true
+          #- --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
+          #- --certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+          #- --certificatesresolvers.default.acme.email=seanlperkins@icloud.com
+          #- --certificatesresolvers.default.acme.storage=/data/acme.json
 
         # Send metrics to Prometheus
         - --metrics.prometheus=true
@@ -58,7 +57,7 @@ spec:
 
         # Use log level= INFO or DEBUG
         - --log.level=INFO
-        image: traefik:2.2
+        image: traefik:2.2.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
@@ -94,9 +93,9 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 2
-        volumeMounts:
-        - name: storage-volume
-          mountPath: /data
+          #        volumeMounts:
+          #- name: storage-volume
+          #mountPath: /data
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
@@ -107,7 +106,7 @@ spec:
       serviceAccount: traefik
       serviceAccountName: traefik
       terminationGracePeriodSeconds: 60
-      volumes:
-      - name: storage-volume
-        persistentVolumeClaim:
-          claimName: traefik-acme-storage
+      #volumes:
+      #- name: storage-volume
+      # persistentVolumeClaim:
+      #   claimName: traefik-acme-storage

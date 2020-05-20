@@ -1,9 +1,9 @@
 IMAGE=sperkins/scope
-IMAGE_SRC=arnulfosolis/scope-arm64
-VERSION=c0b60a16
-ALL_ARCH='amd64 arm64'
+IMAGE_SRC=weaveworks/scope
+VERSION=master-47519e41
+ALL_ARCH='amd64 arm'
 
-# Build ARM64 image here
+# Build AMD64 image here
 
 docker pull $IMAGE_SRC:$VERSION
 docker tag $IMAGE_SRC:$VERSION $IMAGE:$VERSION-amd64

@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  routes:
+  - match: Host(`perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: nginx
+      port: 4080
+  tls:
+    certResolver: default

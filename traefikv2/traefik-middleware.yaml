@@ -16,7 +16,6 @@ spec:
   redirectScheme:
     scheme: https
     permanent: true
-    port: 443
 
 ---
 apiVersion: traefik.containo.us/v1alpha1

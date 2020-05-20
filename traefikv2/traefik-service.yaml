@@ -16,6 +16,8 @@ metadata:
     release: traefik
   name: traefik
   namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: perkplexserver.com
 spec:
   externalTrafficPolicy: Cluster
   ports:

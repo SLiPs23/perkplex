@@ -165,7 +165,7 @@ items:
               command:
                 - /home/weave/scope
               env: []
-              image: sperkins/scope:latest
+              image: sperkins/scope:v1
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 4040
@@ -249,7 +249,7 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
-              image: sperkins/scope:latest
+              image: sperkins/scope:v1
               imagePullPolicy: IfNotPresent
               resources:
                 requests:

@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: octant
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`octant.perkplexserver.com`)
+    middlewares:
+      - name: https
+      - name: compress
+    kind: Rule
+    services:
+    - name: octant
+      port: 9000
+  tls:
+    secretName: default-ssl-cert

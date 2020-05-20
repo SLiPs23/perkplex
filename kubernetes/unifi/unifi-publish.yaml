@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: unifi-volume-claim
+spec:
+  storageClassName: nfs-client
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi
+  namespace: unifi
+  labels:
+    app: unifi
+spec:
+  selector:
+    matchLabels:
+      app: unifi
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: unifi
+    spec:
+      containers:
+      - env:
+        - name: PGID
+          value: "1000"
+        - name: PUID
+          value: "1000"
+        - name: VIRTUAL_HOST
+          value: unifi.ext.perkplex.geekgalaxy.com
+        - name: VIRTUAL_PORT
+          value: "80"
+        image: unifitools/unifi-v2:latest
+        name: unifi
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: unifi-volume
+      restartPolicy: Always
+      volumes:
+      - name: unifi-volume
+        persistentVolumeClaim:
+          claimName: unifi-volume-claim
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: unifi
+  name: unifi
+spec:
+  type: NodePort
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  selector:
+    io.kompose.service: unifi

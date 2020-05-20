@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tautulli
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`tautulli.perkplexserver.com`)
+    middlewares:
+      - name: https
+      - name: compress
+    kind: Rule
+    services:
+    - name: tautulli
+      port: 8181
+  tls:
+    secretName: default-ssl-cert

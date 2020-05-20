@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: organizr
+  namespace: default
+spec:
+  routes:
+  - match: Host(`organizr.perkplex.geekgalaxy.com`)
+    kind: Rule
+    services:
+    - name: organizr
+      port: 80
+  tls:
+    certResolver: default

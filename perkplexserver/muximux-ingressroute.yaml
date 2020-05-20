@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: muximux
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`muximux.perkplexserver.com`)
+    middlewares:
+      - name: https
+      - name: compress
+    kind: Rule
+    services:
+    - name: muximux
+      port: 80
+  tls:
+    secretName: default-ssl-cert
