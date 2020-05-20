@@ -4,11 +4,16 @@ metadata:
   name: nginx
   namespace: default
 spec:
+  entryPoints:
+    - websecure
   routes:
-  - match: Host(`perkplex.geekgalaxy.com`)
+  - match: Host(`perkplexserver.com`)
+    middlewares:
+      - name: https
+      - name: compress
     kind: Rule
     services:
     - name: nginx
       port: 4080
   tls:
-    certResolver: default
+    secretName: default-ssl-cert
