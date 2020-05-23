@@ -24,7 +24,6 @@ spec:
   routes:
     - match: Host(`organizr.perkplexserver.com`)
       middlewares:
-        - name: https
         - name: compress
       kind: Rule
       services:

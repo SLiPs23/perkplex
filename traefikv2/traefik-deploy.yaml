@@ -8,7 +8,7 @@ metadata:
   namespace: kube-system
 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: traefik
@@ -22,6 +22,8 @@ spec:
         app: traefik
         release: traefik
     spec:
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       containers:
       - args:
         - --api
@@ -38,7 +40,7 @@ spec:
         - --providers.kubernetesingress=true
 
         # Redirect http to https
-        #- --entrypoints.web.http.redirections.entryPoint.to=websecure
+        - --entrypoints.web.http.redirections.entryPoint.to=websecure
         #- --entrypoints.websecure.http.tls.certResolver=default
 
           # Using Cert Manager to manage certs, leaving these setting in case I want to revert

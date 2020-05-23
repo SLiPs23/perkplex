@@ -11,16 +11,6 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: https
-spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
   name: compress
 spec:
   compress: {}

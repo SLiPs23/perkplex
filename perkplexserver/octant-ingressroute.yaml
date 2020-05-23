@@ -9,7 +9,6 @@ spec:
   routes:
   - match: Host(`octant.perkplexserver.com`)
     middlewares:
-      - name: https
       - name: compress
     kind: Rule
     services:

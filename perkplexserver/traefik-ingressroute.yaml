@@ -17,6 +17,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-dashboard
+  namespace: kube-system
 spec:
   routes:
   - match: Host(`traefik.perkplexserver.com`)
@@ -25,4 +26,4 @@ spec:
     - name: api@internal
       kind: TraefikService
   tls:
-    secretName: default-ssl-cert
+    secretName: kube-system-ssl-cert
