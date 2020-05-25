@@ -1,14 +1,19 @@
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: alertmanager-main
+  name: alertmanager
   namespace: monitoring
 spec:
+  entryPoints:
+    - websecure
   routes:
-  - match: Host(`alertmanager.perkplex.geekgalaxy.com`)
-    kind: Rule
-    services:
-    - name: alertmanager-main
-      port: 9093
+    - match: Host(`alertmanager.perkplexserver.com`)
+      middlewares:
+        - name: compress
+      kind: Rule
+      services:
+        - name: alertmanager-main
+          port: 9093
   tls:
-    certResolver: default
+    secretName: monitoring-ssl-cert

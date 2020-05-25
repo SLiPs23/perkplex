@@ -2,10 +2,10 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: monitoring-ssl-cert
-  namespace: monitoring
+  name: pihole-ssl-cert
+  namespace: pihole
 spec:
-  secretName: monitoring-ssl-cert
+  secretName: pihole-ssl-cert
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
@@ -16,18 +16,18 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prometheus
-  namespace: monitoring
+  name: pihole
+  namespace: pihole
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`prometheus.perkplexserver.com`)
+    - match: Host(`pihole.perkplexserver.com`)
       middlewares:
         - name: compress
       kind: Rule
       services:
-        - name: prometheus-k8s
-          port: 9090
+        - name: pihole-tcp
+          port: 80
   tls:
-    secretName: monitoring-ssl-cert
+    secretName: pihole-ssl-cert

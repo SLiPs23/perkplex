@@ -1,14 +1,19 @@
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: grafana
   namespace: monitoring
 spec:
+  entryPoints:
+    - websecure
   routes:
-  - match: Host(`grafana.perkplex.geekgalaxy.com`)
-    kind: Rule
-    services:
-    - name: grafana
-      port: 3000
+    - match: Host(`grafana.perkplexserver.com`)
+      middlewares:
+        - name: compress
+      kind: Rule
+      services:
+        - name: grafana
+          port: 3000
   tls:
-    certResolver: default
+    secretName: monitoring-ssl-cert
