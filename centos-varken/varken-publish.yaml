@@ -49,8 +49,8 @@ data:
   VRKN_INFLUXDB_VERIFY_SSL: "false"
   VRKN_INFLUXDB_USERNAME: "root"
   VRKN_INFLUXDB_PASSWORD: "root"
-  VRKN_TAUTULLI_1_URL: "tautulli.perkplex.geekgalaxy.com/home"
-  VRKN_TAUTULLI_1_FALLBACK_IP: "98.243.11.67"
+  VRKN_TAUTULLI_1_URL: "tautulli.perkplexserver.com/home"
+  VRKN_TAUTULLI_1_FALLBACK_IP: "192.168.1.112"
   VRKN_TAUTULLI_1_APIKEY: "cf89759a491b44c7b54f3a5fa99f79ea"
   VRKN_TAUTULLI_1_SSL: "true"
   VRKN_TAUTULLI_1_VERIFY_SSL: "false"
@@ -58,7 +58,7 @@ data:
   VRKN_TAUTULLI_1_GET_ACTIVITY_RUN_SECONDS: "30"
   VRKN_TAUTULLI_1_GET_STATS: "true"
   VRKN_TAUTULLI_1_GET_STATS_RUN_SECONDS: "30"
-  VRKN_SONARR_1_URL: "perkplex.geekgalaxy.com/sonarr"
+  VRKN_SONARR_1_URL: "www.perkplexserver.com/sonarr"
   VRKN_SONARR_1_APIKEY: "d36eee5717a54dc49a066bb39929ec1b"
   VRKN_SONARR_1_SSL: "true"
   VRKN_SONARR_1_VERIFY_SSL: "false"
@@ -68,7 +68,7 @@ data:
   VRKN_SONARR_1_FUTURE_DAYS_RUN_SECONDS: "30"
   VRKN_SONARR_1_QUEUE: "true"
   VRKN_SONARR_1_QUEUE_RUN_SECONDS: "30"
-  VRKN_OMBI_1_URL: "ombi.perkplex.geekgalaxy.com"
+  VRKN_OMBI_1_URL: "ombi.perkplexserver.com"
   VRKN_OMBI_1_APIKEY: "f95fef7b7cb64f939ec36b622c715ff8"
   VRKN_OMBI_1_SSL: "true"
   VRKN_OMBI_1_VERIFY_SSL: "true"
@@ -97,10 +97,12 @@ spec:
         app: varken
     spec:
       hostname: varken
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       restartPolicy: Always
       containers:
       - name: varken
-        image: sperkins/perkplex-varken:latest
+        image: sperkins/perkplex-varken:v0.2.1
         securityContext:
           privileged: true
         imagePullPolicy: Always

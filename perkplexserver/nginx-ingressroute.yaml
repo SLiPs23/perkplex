@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`perkplexserver.com`)
+  - match: Host(`www.perkplexserver.com`)
     middlewares:
       - name: compress
     kind: Rule
