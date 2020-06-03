@@ -42,7 +42,7 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: ombi.ext.perkplex.geekgalaxy.com
+          value: ombi.perkplexserver.com
         - name: VIRTUAL_PORT
           value: "3579"
         image: linuxserver/ombi:latest
@@ -54,6 +54,8 @@ spec:
         - mountPath: /config
           name: ombi-volume
       restartPolicy: Always
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       volumes:
       - name: ombi-volume
         persistentVolumeClaim:
