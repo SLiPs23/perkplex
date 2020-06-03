@@ -16,7 +16,7 @@ server {
         deny all;
 	}  
 
-	server_name perkplexserver.com;
+	server_name www.perkplexserver.com;
 #        auth_basic "Restricted";
 #        auth_basic_user_file /etc/nginx/.htpasswd;
 
