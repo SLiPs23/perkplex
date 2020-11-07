@@ -42,10 +42,10 @@ spec:
         - name: PUID
           value: "1000"
         - name: VIRTUAL_HOST
-          value: organizr.ext.perkplex.geekgalaxy.com
+          value: organizr.perkplexserver.com
         - name: VIRTUAL_PORT
           value: "80"
-        image: organizrtools/organizr-v2:latest
+        image: organizr/organizr:latest
         name: organizr
         resources: {}
         volumeMounts:
