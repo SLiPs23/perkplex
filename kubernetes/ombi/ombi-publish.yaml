@@ -43,7 +43,7 @@ spec:
           value: "1000"
         - name: TZ
           value: "America/Detroit"
-        image: linuxserver/ombi:latest
+        image: linuxserver/ombi:version-v4.0.681
         name: ombi
         ports:
         - containerPort: 3579
