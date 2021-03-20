@@ -36,24 +36,24 @@ server {
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
 
 	location /couch {
-	proxy_set_header Host 192.168.1.6;
-	proxy_pass http://192.168.1.6:5050;
+	proxy_set_header Host 192.168.1.182;
+	proxy_pass http://192.168.1.182:5050;
 	}
 
 	location /sonarr {
-	proxy_set_header Host 192.168.1.6;
-	proxy_pass http://192.168.1.6:8989;
+	proxy_set_header Host 192.168.1.182;
+	proxy_pass http://192.168.1.182:8989;
 	}
 
 	location /syncthing/ {
-	proxy_set_header        Host 192.168.1.6;
+	proxy_set_header        Host 192.168.1.182;
 #	proxy_set_header        X-Forwarded-Proto $scheme;
-	proxy_pass              http://192.168.1.6:8384/;
+	proxy_pass              http://192.168.1.182:8384/;
 	}
 
 	location /jackett {
-	proxy_set_header Host 192.168.1.6;
+	proxy_set_header Host 192.168.1.182;
 #	proxy_set_header X-Forwarded-Proto $scheme;
-	proxy_pass http://192.168.1.6:9117/jackett;
+	proxy_pass http://192.168.1.182:9117/;
 	}
 } 
