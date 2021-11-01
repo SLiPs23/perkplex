@@ -35,6 +35,7 @@ spec:
         - --entryPoints.websecure.address=:443
         - --entryPoints.metrics.address=:8082
         - --entryPoints.traefik.address=:8100
+        - --entryPoints.minecraft.address=:25565  
         - --ping=true
         - --providers.kubernetescrd=true
         - --providers.kubernetesingress=true

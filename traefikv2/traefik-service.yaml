@@ -37,6 +37,10 @@ spec:
     port: 8082
     protocol: TCP
     targetPort: 8082
+  - name: minecraft
+    port: 25565
+    protocol: TCP
+    targetPort: 25565
   selector:
     app: traefik
     release: traefik
