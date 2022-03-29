@@ -27,7 +27,7 @@ spec:
         - name: compress
       kind: Rule
       services:
-        - name: pihole-tcp
+        - name: pihole-web
           port: 80
   tls:
     secretName: pihole-ssl-cert

@@ -6,16 +6,16 @@ replicaCount: 1
 
 image:
   repository: "pihole/pihole"
-  tag: v5.1.2
-  pullPolicy: IfNotPresent
+  tag: latest
+  pullPolicy: Always
 
-serviceTCP:
+serviceWeb:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.112
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
 
-serviceUDP:
+serviceDns:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.112
   annotations:
